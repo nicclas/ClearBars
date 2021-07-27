@@ -1,0 +1,9 @@
+<properties>
+	<property id="MinuteColor" type="number">0xFFAA00</property>
+	<property id="HourColor" type="number">0xFFFFFF</property>
+	<property id="DateColor" type="number">0xFFFFFF</property>
+	<property id="SeparatorColor" type="number">0x555555</property>
+	<property id="DisplayIcons" type="boolean">true</property>
+	<property id="DisplayValues" type="boolean">false</property>
+	<property id="DisplaySeconds" type="boolean">false</property>
+</properties>

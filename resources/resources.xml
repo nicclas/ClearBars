@@ -1,0 +1,6 @@
+<resources>
+	<fonts>
+		<font id="customfont" filename="custom.fnt" filter="0123456789:."
+			antialias="true" />
+	</fonts>
+</resources>

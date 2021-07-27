@@ -1,0 +1,40 @@
+<strings>
+
+	<string id="Mon">Mån</string>
+	<string id="Tue">Tis</string>
+	<string id="Wed">Ons</string>
+	<string id="Thu">Tor</string>
+	<string id="Fri">Fre</string>
+	<string id="Sat">Lör</string>
+	<string id="Sun">Sön</string>
+
+	<string id="Jan">Jan</string>
+	<string id="Feb">Feb</string>
+	<string id="Mar">Mar</string>
+	<string id="Apr">Apr</string>
+	<string id="May">Maj</string>
+	<string id="Jun">Jun</string>
+	<string id="Jul">Jul</string>
+	<string id="Aug">Aug</string>
+	<string id="Sep">Sep</string>
+	<string id="Oct">Okt</string>
+	<string id="Nov">Nov</string>
+	<string id="Dec">Dec</string>
+
+	<string id="AppName">ClearBars</string>
+
+	<string id="MinuteColorTitle">Minutfärg</string>
+	<string id="HourColorTitle">Timfärg</string>
+	<string id="DateColorTitle">Datumfärg</string>
+	<string id="SeparatorColorTitle">Separatorfärg</string>
+	<string id="DisplayIconsTitle">Ikoner</string>
+	<string id="DisplayValuesTitle">Sensorvärden</string>
+	<string id="DisplaySecondsTitle">Sekundvisare</string>
+
+	<string id="ColorOrange">Orange</string>
+	<string id="ColorDarkGray">Grå</string>
+	<string id="ColorWhite">Vit</string>
+	<string id="ColorBlue">Blå</string>
+	<string id="ColorRed">Röd</string>
+	<string id="ColorPink">Rosa</string>
+</strings>
