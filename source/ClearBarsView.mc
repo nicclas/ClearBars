@@ -350,12 +350,19 @@ class ClearBarsView extends WatchUi.WatchFace {
 		endy = screenCenterPoint[1]+80 - clength * Math.sin(rad);
 		dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
 		dc.fillCircle(endx, endy, 5);	
+
 		var actHistArray = ActivityMonitor.getHistory();
 		if ((null != actHistArray) && (actHistArray.size() > 0)) {
-			for(var i = 0; i <= 5; i++){
+
+			var historySize = actHistArray.size();
+			if(historySize > 6){
+				historySize = 6;
+			}
+
+			for(var i = 0; i <= historySize - 1; i++){
 				var histColor = 0x000000;
 				var histprop = 0;
-				var curHistory = actHistArray[5-i];
+				var curHistory = actHistArray[historySize - 1 - i];
 				if ((null != curHistory) && (null != curHistory.steps)) {
 					histprop = 0.0 + curHistory.steps / (1.0 * curHistory.stepGoal);
 					histColor = 0xFF0000;
@@ -544,8 +551,8 @@ class ClearBarsView extends WatchUi.WatchFace {
            
         var secs =System.getClockTime().sec;
         curClip = null;
-        myDc.clearClip();
-        myDc.clear();
+//        myDc.clearClip();
+//        myDc.clear();
         WatchUi.requestUpdate();
         fullScreenRefresh = false;
         isAwake = false;
