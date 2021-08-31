@@ -62,7 +62,7 @@ class ClearBarsView extends WatchUi.WatchFace {
     // Load your resources here
     function onLayout(dc as Dc) as Void {
 	 	customFont = WatchUi.loadResource(Rez.Fonts.customfont);	
- //    	customFont = Graphics.FONT_NUMBER_HOT;
+//     	customFont = Graphics.FONT_NUMBER_HOT;
         setLayout(Rez.Layouts.WatchFace(dc));
         bgRedrawRequested = new[2];
         myDc = dc;
