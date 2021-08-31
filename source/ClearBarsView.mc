@@ -61,8 +61,11 @@ class ClearBarsView extends WatchUi.WatchFace {
 
     // Load your resources here
     function onLayout(dc as Dc) as Void {
-         customFont = WatchUi.loadResource(Rez.Fonts.customfont);    
-//         customFont = Graphics.FONT_NUMBER_HOT;
+        if (dc.getWidth()==208 && dc.getHeight()==208){
+            customFont = Graphics.FONT_NUMBER_MEDIUM;
+        }else{
+            customFont = WatchUi.loadResource(Rez.Fonts.customfont);    
+        }
         setLayout(Rez.Layouts.WatchFace(dc));
         bgRedrawRequested = new[2];
         myDc = dc;
@@ -101,7 +104,11 @@ class ClearBarsView extends WatchUi.WatchFace {
           }
           if (dc.getWidth()==218 && dc.getHeight()==218){
             iconPos = [[23,64],[32,101],[41,120]];
-            valuePos = [[dc.getWidth()/2,37],[dc.getWidth()/2,57],[dc.getWidth()/2,77]];
+            valuePos = [[dc.getWidth()/2,40],[dc.getWidth()/2,60],[dc.getWidth()/2,80]];
+          }
+          if (dc.getWidth()==208 && dc.getHeight()==208){
+            iconPos = [[21,60],[28,96],[37,114]];
+            valuePos = [[dc.getWidth()/2,33],[dc.getWidth()/2,53],[dc.getWidth()/2,73]];
           }
        
         dc.clearClip(); 
@@ -128,21 +135,32 @@ class ClearBarsView extends WatchUi.WatchFace {
 
         var color = Application.getApp().getProperty("HourColor") as Number;
         dc.setColor((color), Graphics.COLOR_TRANSPARENT);
+        var xadjusthour = -8;
+        var xadjustminute = +10;
+        var xadjustseparator = +3;
+        var yadjusttime = -1;
+        var yadjustdate = 68;
+        if (dc.getWidth()==208 && dc.getHeight()==208){
+            xadjusthour = 0;
+            xadjustminute = 0;
+            yadjusttime = -6;
+            yadjustdate = 60;
+        }
+
         if(hour < 10){
-            dc.drawText(dc.getWidth()/2-8, dc.getHeight()/2+3, customFont, "0"+hour.toString(), Graphics.TEXT_JUSTIFY_RIGHT); 
+            dc.drawText(dc.getWidth()/2+xadjusthour, dc.getHeight()/2+yadjusttime, customFont, "0"+hour.toString(), Graphics.TEXT_JUSTIFY_RIGHT); 
         }else{
-            dc.drawText(dc.getWidth()/2-8, dc.getHeight()/2+3, customFont, hour.toString(), Graphics.TEXT_JUSTIFY_RIGHT); 
+            dc.drawText(dc.getWidth()/2+xadjusthour, dc.getHeight()/2+yadjusttime, customFont, hour.toString(), Graphics.TEXT_JUSTIFY_RIGHT); 
         }
         
-        color = Application.getApp().getProperty("SeparatorColor") as Number;
-//        System.println("Color: "+color);
-        dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
-        dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        
-        dc.drawText(dc.getWidth()/2+1, dc.getHeight()/2-1, customFont, ":", Graphics.TEXT_JUSTIFY_CENTER); 
+        if (dc.getWidth()!=208){
+            color = Application.getApp().getProperty("SeparatorColor") as Number;
+            dc.setColor(color, Graphics.COLOR_TRANSPARENT);
+            dc.drawText(dc.getWidth()/2+1, dc.getHeight()/2-5, customFont, ":", Graphics.TEXT_JUSTIFY_CENTER); 
+        }
         color = Application.getApp().getProperty("MinuteColor") as Number;
         dc.setColor((color), Graphics.COLOR_TRANSPARENT);
-        dc.drawText(dc.getWidth()/2+10, dc.getHeight()/2+3, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]), Graphics.TEXT_JUSTIFY_LEFT); 
+        dc.drawText(dc.getWidth()/2+xadjustminute, dc.getHeight()/2+yadjusttime, customFont, Lang.format("$1$", [clockTime.min.format("%02d")]), Graphics.TEXT_JUSTIFY_LEFT); 
         
         // Display Month and day value
         var now = Time.now();
@@ -164,7 +182,7 @@ class ClearBarsView extends WatchUi.WatchFace {
 //        view.setText(dayStr);
         color = Application.getApp().getProperty("DateColor") as Number;
         dc.setColor(color, Graphics.COLOR_TRANSPARENT);
-        dc.drawText(dc.getWidth()/2, dc.getHeight()/2+68, Graphics.FONT_XTINY , dayNameStr+", "+monthNameStr+" "+dayStr, Graphics.TEXT_JUSTIFY_CENTER); 
+        dc.drawText(dc.getWidth()/2, dc.getHeight()/2+yadjustdate, Graphics.FONT_XTINY , dayNameStr+", "+monthNameStr+" "+dayStr, Graphics.TEXT_JUSTIFY_CENTER); 
 
         var prop;
         var steps = ActivityMonitor.getInfo().steps;
@@ -351,6 +369,10 @@ class ClearBarsView extends WatchUi.WatchFace {
         dc.setColor(Graphics.COLOR_DK_GRAY, Graphics.COLOR_TRANSPARENT);
         dc.fillCircle(endx, endy, 5);    
 
+        var histSpace = 10;
+        if (dc.getWidth()==208 && dc.getHeight()==208){
+            histSpace = 6;
+        }
         var actHistArray = ActivityMonitor.getHistory();
         if ((null != actHistArray) && (actHistArray.size() > 0)) {
 
@@ -381,7 +403,7 @@ class ClearBarsView extends WatchUi.WatchFace {
                     if(histprop >= 1.0){
                         histColor = 0x00FF00;
                     }
-                    deg = 115 - 10 * i; // History circles
+                    deg = 90 + histSpace*2 + histSpace/2 - histSpace * i; // History circles
                     rad = deg * Math.PI / 180.0;
                     var histx = screenCenterPoint[0] + clength * Math.cos(rad) + 1;
                     var histy = screenCenterPoint[1]+80 - clength * Math.sin(rad);
@@ -414,7 +436,8 @@ class ClearBarsView extends WatchUi.WatchFace {
                 if(histprop >= 1.0){
                     histColor = 0x00FF00;
                 }
-                deg = 115 - 10 * i; // History circles
+                deg = 90 + histSpace*2 + histSpace/2 - histSpace * i; // History circles
+//                deg = 115 - 10 * i; // History circles
                 rad = deg * Math.PI / 180.0;
                 var histx = screenCenterPoint[0] + clength * Math.cos(rad) + 1;
                 var histy = screenCenterPoint[1]+80 - clength * Math.sin(rad);
@@ -578,7 +601,11 @@ class ClearBarsView extends WatchUi.WatchFace {
         // Map out the coordinates of the watch hand
         var ThickLen = 8;
         var ThickWidth = 4;
-          if (dc.getWidth()==218 && dc.getHeight()==218) {
+        if (dc.getWidth()==218 && dc.getHeight()==218) {
+            ThickLen = 2;
+            ThickWidth = 1;
+        }          
+        if (dc.getWidth()==208 && dc.getHeight()==208) {
             ThickLen = 2;
             ThickWidth = 1;
         }          
